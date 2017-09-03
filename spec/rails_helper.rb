@@ -3,6 +3,7 @@ require 'database_cleaner'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
@@ -46,6 +47,8 @@ RSpec.configure do |config|
 
   # add `FactoryGirl` methods
   config.include FactoryGirl::Syntax::Methods
+
+  config.include RequestSpecHelper, type: :request
 
   # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
   config.before(:suite) do
